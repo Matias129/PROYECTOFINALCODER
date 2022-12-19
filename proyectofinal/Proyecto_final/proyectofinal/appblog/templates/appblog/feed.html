@@ -1,0 +1,63 @@
+{% extends "appblog/base/base1.html" %}
+{% load static %}
+
+
+{% block TitleBanner %}
+<div id="latestalbum" class="hero pad">
+    <div class="container">
+        <!-- hero content -->
+        <div class="hero-content ">
+            <!-- heading -->
+            <h2>Feed</h2>
+            <hr>
+            <!-- paragraph -->
+            <p>Realiza y encuentra todas tus publicaciones.</p>
+        </div>
+        <br>
+        <br>
+        <!--formulario-->
+        <h2>Realiza tus posts:</h2>
+        <form method="post" enctype="multipart/form-data">
+
+                {% if errores %}
+                    <p style="color: red">{{errores}}</p>
+                {% endif %}
+
+                {% csrf_token %}
+                {{formulario.as_p}}
+                <br>
+                <input type="submit" value="Publicar">
+        </form>
+    </div>
+</div>
+<hr>
+
+<div class="main-wrapper">
+    <section class="blog-list px-3 py-5 p-md-5">
+        <div class="container">
+
+            {% for post in post_list %}
+
+            <div class="item mb-5">
+                <div class="media">
+                    <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post.imagen.url}}" alt="image" width="400" height="300">
+                    <div class="media-body">
+                        <h3 class="title mb-1"><u>{{post.titulo}}</u> | <a href="{% url 'delete-post' post.id %}"><i class="fa fa-trash"></i></a> | <a href="{% url 'update-post' post.id %}"><i class="fa fa-pencil"></i></a></h3>
+                        <h4 class="title mb-1">{{post.subtitulo}}</h4>
+                        <div class="meta mb-1"><span class="date">Autor: {{post.autor}} | Fecha de publicación: {{post.fecha}}</div>
+                        <a class="more-link" href="{% url 'read-post' post.id %}">Leer más &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//media-->
+            </div><!--//item--> 
+            <hr>  
+            <br>
+            
+            
+            {% endfor %}
+
+        </div>
+    </section>
+    
+</div><!--//main-wrapper-->
+
+{% endblock %}
